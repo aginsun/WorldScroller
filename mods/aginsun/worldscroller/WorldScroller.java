@@ -2,7 +2,9 @@ package mods.aginsun.worldscroller;
 
 import mods.aginsun.worldscroller.common.CommonProxy;
 import mods.aginsun.worldscroller.common.ItemBag;
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -38,8 +40,9 @@ public class WorldScroller
 		
 		config.save();
 		
-		itemBag = new ItemBag(itemBagID).func_111206_d("worldscroller:textures/items/bags");
+		itemBag = new ItemBag(itemBagID).func_111206_d("worldscroller:textures/items/bags"); //TODO: make Texture
 		GameRegistry.registerItem(itemBag, "Bag");
+		GameRegistry.addShapedRecipe(new ItemStack(itemBag), new Object[] {"XYX", "XUX", "XXX", 'X', Block.cloth, 'Y', Item.diamond, 'U', Item.netherStar}); //TODO: Maybe change recipe
 	}
 	
 	@EventHandler

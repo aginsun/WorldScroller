@@ -55,7 +55,7 @@ public class KeyBindingHandler extends KeyHandler
 						{
 							int j = getCurrentHotbar(player);
 							j--;
-							setCurrentHotbar(player, j);
+							setCurrentHotbar(player, j);//TODO: get this working.
 						}
 					}
 				}

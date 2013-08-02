@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiScreenHotBars extends GuiContainer
 {
-	//175, 221
+	//TODO: Fancy this up.
 	
 	public GuiScreenHotBars(InventoryPlayer player_inventory, TileEntityWorldScroller worldScroller) 
 	{

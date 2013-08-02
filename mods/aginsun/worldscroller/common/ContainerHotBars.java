@@ -9,7 +9,7 @@ public class ContainerHotBars extends Container
 {
 	public ContainerHotBars(InventoryPlayer playerinv, TileEntityWorldScroller tile_entity)
 	{
-		addPlayerInventory(playerinv);
+		addPlayerInventory(playerinv);//TODO: add other slots.
 	}
 	
 	public void addPlayerInventory(InventoryPlayer player_inventory)
@@ -31,6 +31,6 @@ public class ContainerHotBars extends Container
 	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer) 
 	{
-		return false;
+		return true;
 	}
 }
