@@ -36,7 +36,7 @@ public class KeyBindingHandler extends KeyHandler
 		{
 			if(kb == key)
 			{
-				Minecraft.getMinecraft().displayGuiScreen(new GuiScreen());
+				Minecraft.getMinecraft().displayGuiScreen(new GuiScreenHotBars());
 			}
 		}
 	}
