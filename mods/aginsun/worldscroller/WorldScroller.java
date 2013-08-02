@@ -1,6 +1,8 @@
 package mods.aginsun.worldscroller;
 
 import mods.aginsun.worldscroller.common.CommonProxy;
+import mods.aginsun.worldscroller.common.ItemBag;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -9,6 +11,8 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = "worldscroller", name = "World Scroller", version = "1.0.0")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
@@ -20,6 +24,9 @@ public class WorldScroller
 	@SidedProxy(clientSide = "mods.aginsun.worldscroller.client.ClientProxy", serverSide = "mods.aginsun.worldscroller.common.CommonProxy")
 	public static CommonProxy proxy;
 	
+	public static Item itemBag;
+	public static int itemBagID;
+	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
@@ -27,16 +34,18 @@ public class WorldScroller
 		
 		config.load();
 		
-		//CONFIG
+		itemBagID = config.getItem("Bag", 27775).getInt();
 		
 		config.save();
 		
-		//PRE-INIT
+		itemBag = new ItemBag(itemBagID).func_111206_d("worldscroller:textures/items/bags");
+		GameRegistry.registerItem(itemBag, "Bag");
 	}
 	
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		//INIT
+		proxy.initClientStuff();
+		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 	}
 }

@@ -4,6 +4,9 @@ import java.util.EnumSet;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+
+import org.lwjgl.input.Mouse;
+
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
 
@@ -48,5 +51,8 @@ public class ClientTickHandler implements ITickHandler
 	
 	public void onTickInGUI(GuiScreen gui){}
 	
-	public void onTickInGame(){}
+	public void onTickInGame()
+	{
+		int mouseWheelDirection = Mouse.getDWheel();
+	}
 }

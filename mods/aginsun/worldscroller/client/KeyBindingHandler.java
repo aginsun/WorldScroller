@@ -2,11 +2,13 @@ package mods.aginsun.worldscroller.client;
 
 import java.util.EnumSet;
 
+import mods.aginsun.worldscroller.WorldScroller;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.player.EntityPlayer;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
 import cpw.mods.fml.common.TickType;
@@ -14,9 +16,10 @@ import cpw.mods.fml.common.TickType;
 public class KeyBindingHandler extends KeyHandler
 {
 	static KeyBinding key = new KeyBinding("WorldScroller Gui Key", Keyboard.KEY_F12);
-	
-	static KeyBinding[] keyBindings = new KeyBinding[] {key};
-	static boolean[] bool = new boolean[] {false};
+	static KeyBinding key1 = new KeyBinding("WorldScroller Gui Key", Keyboard.KEY_LCONTROL);
+
+	static KeyBinding[] keyBindings = new KeyBinding[] {key, key1};
+	static boolean[] bool = new boolean[] {true, true};
 	
 	public KeyBindingHandler() 
 	{
@@ -34,9 +37,28 @@ public class KeyBindingHandler extends KeyHandler
 	{
 		if(Minecraft.getMinecraft().currentScreen == null)
 		{
-			if(kb == key)
+			if(kb == key && kb == key1)
 			{
-				Minecraft.getMinecraft().displayGuiScreen(new GuiScreenHotBars());
+				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+				int i = Mouse.getDWheel();
+				if(player.inventory.hasItem(WorldScroller.itemBag.itemID))
+				{
+					if(i != 0)
+					{
+						if(i > 0)
+						{
+							int j = getCurrentHotbar(player);
+							j++;
+							setCurrentHotbar(player, j);
+						}
+						if(i < 0)
+						{
+							int j = getCurrentHotbar(player);
+							j--;
+							setCurrentHotbar(player, j);
+						}
+					}
+				}
 			}
 		}
 	}
@@ -48,5 +70,15 @@ public class KeyBindingHandler extends KeyHandler
 	public EnumSet<TickType> ticks() 
 	{
 		return EnumSet.of(TickType.CLIENT);
+	}
+	
+	public int getCurrentHotbar(EntityPlayer player)
+	{
+		return 0;
+	}
+	
+	public void setCurrentHotbar(EntityPlayer player, int i)
+	{
+		
 	}
 }
