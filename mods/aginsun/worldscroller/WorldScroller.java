@@ -2,6 +2,7 @@ package mods.aginsun.worldscroller;
 
 import mods.aginsun.worldscroller.common.CommonProxy;
 import mods.aginsun.worldscroller.common.ItemBag;
+import mods.aginsun.worldscroller.common.PlayerSaveHandler;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -12,6 +13,7 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -50,5 +52,11 @@ public class WorldScroller
 	{
 		proxy.initClientStuff();
 		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
+	}
+	
+	@EventHandler
+	public void onServerStarted(FMLServerStartedEvent event)
+	{
+		GameRegistry.registerPlayerTracker(new PlayerSaveHandler());
 	}
 }

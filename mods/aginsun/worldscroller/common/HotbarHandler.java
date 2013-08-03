@@ -6,14 +6,20 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class HotbarHandler 
 {
-	private static HashMap<String, HotBar[]> hotbars = new HashMap<String, HotBar[]>();
+	private HashMap<String, HotBar[]> hotbars = new HashMap<String, HotBar[]>();
+	private static HotbarHandler instance = new HotbarHandler();
 	
-	public static void setHotbars(EntityPlayer player, HotBar[] hotbar)
+	public static HotbarHandler getInstance()
+	{
+		return instance;
+	}
+	
+	public void setHotbars(EntityPlayer player, HotBar[] hotbar)
 	{
 		hotbars.put(player.username, hotbar);
 	}
 	
-	public static HotBar[] getHotbars(EntityPlayer player)
+	public HotBar[] getHotbars(EntityPlayer player)
 	{
 		if(hotbars.containsKey(player.username))
 		{
@@ -22,13 +28,13 @@ public class HotbarHandler
 		return null;
 	}
 	
-	public static HotBar getHotbar(EntityPlayer player, int i)
+	public HotBar getHotbar(EntityPlayer player, int i)
 	{
 		HotBar[] hotbar = hotbars.get(player.username);
 		return hotbar[i];
 	}
 	
-	public static void setHotbar(EntityPlayer player, int i, HotBar bar)
+	public void setHotbar(EntityPlayer player, int i, HotBar bar)
 	{
 		HotBar[] hotbar = hotbars.get(player.username);
 		hotbar[i] = bar;
