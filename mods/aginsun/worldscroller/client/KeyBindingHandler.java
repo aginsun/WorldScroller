@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatMessageComponent;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -49,6 +50,16 @@ public class KeyBindingHandler extends KeyHandler
 					{
 						//hotbar of player
 						ItemStack[] playerHotBar = getPlayerHotBar(player);
+						for(ItemStack item : playerHotBar)
+						{
+							if(item != null)
+								if(item.itemID == WorldScroller.itemBag.itemID)
+								{
+									player.sendChatToPlayer(new ChatMessageComponent().func_111072_b("You cannot have the bag on your hotbar while scrolling!"));
+									kb.unPressAllKeys();
+									return;
+								}	
+						}
 						int a = player.inventory.currentItem;
 						if(i > 0)
 						{

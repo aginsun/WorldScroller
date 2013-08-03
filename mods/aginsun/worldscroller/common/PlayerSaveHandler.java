@@ -17,7 +17,6 @@ public class PlayerSaveHandler implements IPlayerTracker
 		
 		if(list.tagCount() == 0)
 		{
-			System.out.println("Empty!");
 			HotBar[] hotbars = new HotBar[6];			
 			for(int i = 0; i < hotbars.length; i++)
 			{
@@ -27,7 +26,6 @@ public class PlayerSaveHandler implements IPlayerTracker
 		}
 		else
 		{
-			System.out.println("Has stuff!");
 			HotBar[] hotbars = new HotBar[6];
 			for(int i = 0; i < hotbars.length; i++)
 			{

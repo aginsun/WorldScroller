@@ -12,7 +12,8 @@ public class ItemBag extends Item
 	public ItemBag(int par1)
 	{
 		super(par1);
-		this.setCreativeTab(CreativeTabs.tabInventory);
+		this.setCreativeTab(CreativeTabs.tabMisc);
+		this.setMaxStackSize(1);
 	}
 	
 	@Override

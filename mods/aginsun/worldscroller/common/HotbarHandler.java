@@ -24,7 +24,6 @@ public class HotbarHandler
 	{
 		if(hotbars.containsKey(player.username))
 		{
-			System.out.println("Getting hotbars!");
 			return hotbars.get(player.username);
 		}
 		return null;

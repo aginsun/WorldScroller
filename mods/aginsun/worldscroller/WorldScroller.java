@@ -24,36 +24,36 @@ public class WorldScroller
 {
 	@Instance("worldscroller")
 	public static WorldScroller instance;
-	
+
 	@SidedProxy(clientSide = "mods.aginsun.worldscroller.client.ClientProxy", serverSide = "mods.aginsun.worldscroller.common.CommonProxy")
 	public static CommonProxy proxy;
-	
+
 	public static Item itemBag;
 	public static int itemBagID;
-	
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
-		
+
 		config.load();
-		
+
 		itemBagID = config.getItem("Bag", 27775).getInt();
-		
+
 		config.save();
-		
-		itemBag = new ItemBag(itemBagID).func_111206_d("worldscroller:textures/items/bags"); //TODO: make Texture
+
+		itemBag = new ItemBag(itemBagID).func_111206_d("worldscroller:bags");
 		GameRegistry.registerItem(itemBag, "Bag");
 		GameRegistry.addShapedRecipe(new ItemStack(itemBag), new Object[] {"XYX", "XUX", "XXX", 'X', Block.cloth, 'Y', Item.diamond, 'U', Item.netherStar}); //TODO: Maybe change recipe
 	}
-	
+
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
 		proxy.initClientStuff();
 		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 	}
-	
+
 	@EventHandler
 	public void onServerStarted(FMLServerStartedEvent event)
 	{
