@@ -17,6 +17,7 @@ import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @Mod(modid = "worldscroller", name = "World Scroller", version = "1.0.0")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
@@ -44,6 +45,7 @@ public class WorldScroller
 
 		itemBag = new ItemBag(itemBagID).func_111206_d("worldscroller:bags");
 		GameRegistry.registerItem(itemBag, "Bag");
+		LanguageRegistry.addName(itemBag, "ScrollBag V2");
 		GameRegistry.addShapedRecipe(new ItemStack(itemBag), new Object[] {"XYX", "XUX", "XXX", 'X', Block.cloth, 'Y', Item.diamond, 'U', Item.netherStar}); //TODO: Maybe change recipe
 	}
 

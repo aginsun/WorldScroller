@@ -102,6 +102,10 @@ public class TileEntityWorldScroller implements IInventory
 	@Override
 	public void openChest()
 	{
+		if(FMLCommonHandler.instance().getEffectiveSide().isServer())
+			System.out.println("SERVER");
+		if(FMLCommonHandler.instance().getEffectiveSide().isClient())
+			System.out.println("CLIENT");
 		HotBar[] hotbars = HotbarHandler.getInstance().getHotbars(player);
 		ItemStack[] itemStacks = new ItemStack[54];
 		for(int i = 0; i < hotbars.length; i++)
