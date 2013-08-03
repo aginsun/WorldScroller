@@ -1,5 +1,6 @@
 package mods.aginsun.worldscroller.client;
 
+import java.awt.Color;
 import java.util.EnumSet;
 
 import net.minecraft.client.Minecraft;
@@ -46,7 +47,10 @@ public class ClientTickHandler implements ITickHandler
 	
 	public void onRenderTick()
 	{
-		//TODO: display number of current hotbar.
+		int posX = 5, posZ = 10;
+		int color = Color.blue.getRGB();
+		
+		Minecraft.getMinecraft().fontRenderer.drawString("Number", posX, posZ, color); //TODO: getCurrentHotbar()
 	}
 	
 	public void onTickInGUI(GuiScreen gui){}

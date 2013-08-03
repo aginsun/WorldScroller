@@ -10,9 +10,11 @@ public class GuiScreenHotBars extends GuiContainer
 {
 	//TODO: Fancy this up.
 	
+	private static ContainerHotBars container;
+	
 	public GuiScreenHotBars(InventoryPlayer player_inventory, TileEntityWorldScroller worldScroller) 
 	{
-		super(new ContainerHotBars(player_inventory, worldScroller));
+		super(container = new ContainerHotBars(player_inventory, worldScroller));
 		xSize = 176;
 		ySize = 222;
 	}

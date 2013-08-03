@@ -9,7 +9,15 @@ public class ContainerHotBars extends Container
 {
 	public ContainerHotBars(InventoryPlayer playerinv, TileEntityWorldScroller tile_entity)
 	{
-		addPlayerInventory(playerinv);//TODO: add other slots.
+		addPlayerInventory(playerinv);
+		
+		for(int i = 0; i < 6; i++)
+		{
+			for(int j = 0; j < 9; j++)
+			{
+				addSlotToContainer(new Slot(tile_entity, j + i * 9, 8 + j * 18, 18 + i * 18));
+			}
+		}
 	}
 	
 	public void addPlayerInventory(InventoryPlayer player_inventory)
