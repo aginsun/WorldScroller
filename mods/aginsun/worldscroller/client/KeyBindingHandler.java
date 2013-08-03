@@ -49,7 +49,7 @@ public class KeyBindingHandler extends KeyHandler
 					{
 						//hotbar of player
 						ItemStack[] playerHotBar = getPlayerHotBar(player);
-						
+						int a = player.inventory.currentItem;
 						if(i > 0)
 						{
 							//Hotbar that it will change with.
@@ -64,6 +64,7 @@ public class KeyBindingHandler extends KeyHandler
 							}
 							HotbarHandler.getInstance().setHotbar(player, getCurrentHotbarNumber(player), new HotBar(getCurrentHotbarNumber(player), playerHotBar));
 							setCurrentHotbarNumber(player, f);
+							player.inventory.changeCurrentItem(a);
 						}
 						if(i < 0)
 						{
@@ -78,6 +79,7 @@ public class KeyBindingHandler extends KeyHandler
 							}
 							HotbarHandler.getInstance().setHotbar(player, getCurrentHotbarNumber(player), new HotBar(getCurrentHotbarNumber(player), playerHotBar));
 							setCurrentHotbarNumber(player, f);
+							player.inventory.changeCurrentItem(a);
 						}
 					}
 				}
@@ -115,7 +117,7 @@ public class KeyBindingHandler extends KeyHandler
 		return hotbar;
 	}
 	
-	public void setPlayerHotBar(EntityPlayer player, ItemStack[] itemStack)
+	public static void setPlayerHotBar(EntityPlayer player, ItemStack[] itemStack)
 	{
 		ItemStack[] item = player.inventory.mainInventory;
 		for(int k = 0; k <= 8; k++)
