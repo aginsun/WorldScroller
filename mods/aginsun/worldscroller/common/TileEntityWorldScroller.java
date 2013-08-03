@@ -11,9 +11,10 @@ import cpw.mods.fml.common.network.Player;
 public class TileEntityWorldScroller implements IInventory
 {
 	private ItemStack[] inventory;
-	
-	public TileEntityWorldScroller()
+	private EntityPlayer player;
+	public TileEntityWorldScroller(EntityPlayer player)
 	{
+		this.player = player;
 		inventory = new ItemStack[54];
 	}
 
@@ -99,10 +100,33 @@ public class TileEntityWorldScroller implements IInventory
 	}
 
 	@Override
-	public void openChest(){}
+	public void openChest()
+	{
+		HotBar[] hotbars = HotbarHandler.getInstance().getHotbars(player);
+		ItemStack[] itemStacks = new ItemStack[54];
+		for(int i = 0; i < hotbars.length; i++)
+		{
+			for(int j = 0; j < hotbars[i].slots.length; j++)
+			{
+				itemStacks[j + i * 9] = hotbars[i].slots[j];
+			}
+		}
+		inventory = itemStacks;
+	}
 
 	@Override
-	public void closeChest(){}
+	public void closeChest()
+	{
+		HotBar[] hotbars = HotbarHandler.getInstance().getHotbars(player);
+		for(int i = 0; i < hotbars.length; i++)
+		{
+			for(int j = 0; j < hotbars[i].slots.length; j++)
+			{
+				hotbars[i].slots[j] = inventory[j + i * 9];
+			}
+		}
+		HotbarHandler.getInstance().setHotbars(player, hotbars);
+	}
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) 

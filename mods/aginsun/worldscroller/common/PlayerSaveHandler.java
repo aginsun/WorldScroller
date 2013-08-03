@@ -12,24 +12,27 @@ public class PlayerSaveHandler implements IPlayerTracker
 	public void onPlayerLogin(EntityPlayer player) 
 	{
 		NBTTagCompound nbt = player.getEntityData().getCompoundTag(player.PERSISTED_NBT_TAG);
-	
+		HotbarHandler.getInstance().setCurrentHotbar(player, nbt.getInteger("currentHotbar"));
 		NBTTagList list = nbt.getTagList("hotbars");
-		
 		
 		if(list.tagCount() == 0)
 		{
-			HotBar[] hotbars = new HotBar[6];
-			int i = 0;
-			for(HotBar bar : hotbars)
+			System.out.println("Empty!");
+			HotBar[] hotbars = new HotBar[6];			
+			for(int i = 0; i < hotbars.length; i++)
 			{
-				bar = new HotBar(i, new ItemStack[9]);
-				i++;
+				hotbars[i] = new HotBar(i, new ItemStack[9]);
 			}
 			HotbarHandler.getInstance().setHotbars(player, hotbars);
 		}
 		else
 		{
+			System.out.println("Has stuff!");
 			HotBar[] hotbars = new HotBar[6];
+			for(int i = 0; i < hotbars.length; i++)
+			{
+				hotbars[i] = new HotBar(i, new ItemStack[9]);
+			}
 			ItemStack[] item = new ItemStack[54];
 			for(int k = 0; k < list.tagCount(); k++)
 			{
@@ -56,7 +59,7 @@ public class PlayerSaveHandler implements IPlayerTracker
 	public void onPlayerLogout(EntityPlayer player)
 	{
 		NBTTagCompound nbt = player.getEntityData().getCompoundTag(player.PERSISTED_NBT_TAG);
-
+		nbt.setInteger("currentHotbar", HotbarHandler.getInstance().getCurrentHotbar(player));
 		NBTTagList list = new NBTTagList();
 		
 		HotBar[] hotbars = HotbarHandler.getInstance().getHotbars(player);

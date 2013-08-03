@@ -3,9 +3,12 @@ package mods.aginsun.worldscroller.client;
 import java.util.EnumSet;
 
 import mods.aginsun.worldscroller.WorldScroller;
+import mods.aginsun.worldscroller.common.HotBar;
+import mods.aginsun.worldscroller.common.HotbarHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -15,11 +18,10 @@ import cpw.mods.fml.common.TickType;
 
 public class KeyBindingHandler extends KeyHandler
 {
-	static KeyBinding key = new KeyBinding("WorldScroller Gui Key", Keyboard.KEY_F12);
 	static KeyBinding key1 = new KeyBinding("WorldScroller Gui Key", Keyboard.KEY_LCONTROL);
 
-	static KeyBinding[] keyBindings = new KeyBinding[] {key, key1};
-	static boolean[] bool = new boolean[] {true, true};
+	static KeyBinding[] keyBindings = new KeyBinding[] {key1};
+	static boolean[] bool = new boolean[] {true};
 	
 	public KeyBindingHandler() 
 	{
@@ -37,7 +39,7 @@ public class KeyBindingHandler extends KeyHandler
 	{
 		if(Minecraft.getMinecraft().currentScreen == null)
 		{
-			if(kb == key && kb == key1)
+			if(kb == key1)
 			{
 				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 				int i = Mouse.getDWheel();
@@ -45,17 +47,37 @@ public class KeyBindingHandler extends KeyHandler
 				{
 					if(i != 0)
 					{
+						//hotbar of player
+						ItemStack[] playerHotBar = getPlayerHotBar(player);
+						
 						if(i > 0)
 						{
-							int j = getCurrentHotbar(player);
-							j++;
-							setCurrentHotbar(player, j);
+							//Hotbar that it will change with.
+							int f = getCurrentHotbarNumber(player) - 1;
+							if(f < 0)
+								f = 5;
+							ItemStack[] gettingHotbar = HotbarHandler.getInstance().getHotbar(player, f).slots;
+							setPlayerHotBar(player, gettingHotbar);
+							for(int k = 0; k < HotbarHandler.getInstance().getHotbar(player, f).slots.length; k++)
+							{
+								HotbarHandler.getInstance().getHotbar(player, f).slots[k] = null;
+							}
+							HotbarHandler.getInstance().setHotbar(player, getCurrentHotbarNumber(player), new HotBar(getCurrentHotbarNumber(player), playerHotBar));
+							setCurrentHotbarNumber(player, f);
 						}
 						if(i < 0)
 						{
-							int j = getCurrentHotbar(player);
-							j--;
-							setCurrentHotbar(player, j);//TODO: get this working.
+							int f = getCurrentHotbarNumber(player) + 1;
+							if(f > 5)
+								f = 0;
+							ItemStack[] gettingHotbar = HotbarHandler.getInstance().getHotbar(player, f).slots;
+							setPlayerHotBar(player, gettingHotbar);
+							for(int k = 0; k < HotbarHandler.getInstance().getHotbar(player, f).slots.length; k++)
+							{
+								HotbarHandler.getInstance().getHotbar(player, f).slots[k] = null;
+							}
+							HotbarHandler.getInstance().setHotbar(player, getCurrentHotbarNumber(player), new HotBar(getCurrentHotbarNumber(player), playerHotBar));
+							setCurrentHotbarNumber(player, f);
 						}
 					}
 				}
@@ -72,13 +94,41 @@ public class KeyBindingHandler extends KeyHandler
 		return EnumSet.of(TickType.CLIENT);
 	}
 	
-	public int getCurrentHotbar(EntityPlayer player)
+	public int getCurrentHotbarNumber(EntityPlayer player)
 	{
-		return 0;
+		return HotbarHandler.getInstance().getCurrentHotbar(player);
 	}
 	
-	public void setCurrentHotbar(EntityPlayer player, int i)
+	public void setCurrentHotbarNumber(EntityPlayer player, int i)
 	{
-		
+		HotbarHandler.getInstance().setCurrentHotbar(player, i);
+	}
+	
+	public ItemStack[] getPlayerHotBar(EntityPlayer player)
+	{
+		ItemStack[] itemStack = player.inventory.mainInventory;
+		ItemStack[] hotbar = new ItemStack[9];
+		for(int k = 0; k <= 8; k++)
+		{
+			hotbar[k] = player.inventory.mainInventory[k];
+		}
+		return hotbar;
+	}
+	
+	public void setPlayerHotBar(EntityPlayer player, ItemStack[] itemStack)
+	{
+		ItemStack[] item = player.inventory.mainInventory;
+		for(int k = 0; k <= 8; k++)
+		{
+			player.inventory.mainInventory[k] = itemStack[k];
+		}
+	}
+	
+	public void clearHotbar(EntityPlayer player, ItemStack[] itemstack)
+	{
+		for(ItemStack itemStack : itemstack)
+		{
+			itemStack = null;
+		}
 	}
 }

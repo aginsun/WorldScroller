@@ -18,7 +18,7 @@ public class CommonProxy implements IGuiHandler
     	switch(id)
     	{
     		case GuiIds.GUI_HOTBARS :
-    			return new ContainerHotBars(player.inventory, new TileEntityWorldScroller());
+    			return new ContainerHotBars(player.inventory, new TileEntityWorldScroller(player));
             default:
             	return null;
     	}
@@ -30,7 +30,7 @@ public class CommonProxy implements IGuiHandler
     	switch(id)
     	{
     		case GuiIds.GUI_HOTBARS :
-    			return new GuiScreenHotBars(player.inventory, new TileEntityWorldScroller());
+    			return new GuiScreenHotBars(player.inventory, new TileEntityWorldScroller(player));
     		default:
     			return null;
     	}

@@ -3,8 +3,10 @@ package mods.aginsun.worldscroller.client;
 import java.awt.Color;
 import java.util.EnumSet;
 
+import mods.aginsun.worldscroller.common.HotbarHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
 
 import org.lwjgl.input.Mouse;
 
@@ -47,10 +49,12 @@ public class ClientTickHandler implements ITickHandler
 	
 	public void onRenderTick()
 	{
+		Minecraft mc = Minecraft.getMinecraft();
 		int posX = 5, posZ = 10;
 		int color = Color.blue.getRGB();
-		
-		Minecraft.getMinecraft().fontRenderer.drawString("Number", posX, posZ, color); //TODO: getCurrentHotbar()
+		EntityPlayer player = mc.thePlayer;
+		if(player != null && mc.theWorld != null)
+			mc.fontRenderer.drawString(new StringBuilder().append(HotbarHandler.getInstance().getCurrentHotbar(player)).toString(), posX, posZ, color);
 	}
 	
 	public void onTickInGUI(GuiScreen gui){}
