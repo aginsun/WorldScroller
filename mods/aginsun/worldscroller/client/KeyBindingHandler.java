@@ -63,34 +63,37 @@ public class KeyBindingHandler extends KeyHandler
 						int a = player.inventory.currentItem;
 						if(i > 0)
 						{
-							//Hotbar that it will change with.
-							int f = getCurrentHotbarNumber(player) - 1;
-							if(f < 0)
-								f = 5;
-							ItemStack[] gettingHotbar = HotbarHandler.getInstance().getHotbar(player, f).slots;
-							setPlayerHotBar(player, gettingHotbar);
-							for(int k = 0; k < HotbarHandler.getInstance().getHotbar(player, f).slots.length; k++)
+							int b = ClientHotbarHandler.getInstance().getHotbar() - 1;
+							if(b < 0)
+								b = 5;
+							ItemStack[] hotbarChanging = new ItemStack[9];
+							for(int j = 0; j < 8; j++)
 							{
-								HotbarHandler.getInstance().getHotbar(player, f).slots[k] = null;
+								hotbarChanging[j] = ClientHotbarHandler.getInstance().getInventorySlot(j + b * 9);
 							}
-							HotbarHandler.getInstance().setHotbar(player, getCurrentHotbarNumber(player), new HotBar(getCurrentHotbarNumber(player), playerHotBar));
-							setCurrentHotbarNumber(player, f);
-							player.inventory.changeCurrentItem(a);
+							setPlayerHotBar(player, hotbarChanging);
+							for(int j = 0; j < 9; j++)
+							{
+								ClientHotbarHandler.getInstance().setInventorySlot(playerHotBar[j], j + ClientHotbarHandler.getInstance().getHotbar() * 9);
+							}
+							ClientHotbarHandler.getInstance().setHotbar(b);
 						}
 						if(i < 0)
 						{
-							int f = getCurrentHotbarNumber(player) + 1;
-							if(f > 5)
-								f = 0;
-							ItemStack[] gettingHotbar = HotbarHandler.getInstance().getHotbar(player, f).slots;
-							setPlayerHotBar(player, gettingHotbar);
-							for(int k = 0; k < HotbarHandler.getInstance().getHotbar(player, f).slots.length; k++)
+							int b = ClientHotbarHandler.getInstance().getHotbar() + 1;
+							if(b > 5)
+								b = 0;
+							ItemStack[] hotbarChanging = new ItemStack[9];
+							for(int j = 0; j < 9; j++)
 							{
-								HotbarHandler.getInstance().getHotbar(player, f).slots[k] = null;
+								hotbarChanging[j] = ClientHotbarHandler.getInstance().getInventorySlot(j + b * 9);
 							}
-							HotbarHandler.getInstance().setHotbar(player, getCurrentHotbarNumber(player), new HotBar(getCurrentHotbarNumber(player), playerHotBar));
-							setCurrentHotbarNumber(player, f);
-							player.inventory.changeCurrentItem(a);
+							setPlayerHotBar(player, hotbarChanging);
+							for(int j = 0; j < 9; j++)
+							{
+								ClientHotbarHandler.getInstance().setInventorySlot(playerHotBar[j], j + ClientHotbarHandler.getInstance().getHotbar() * 9);
+							}
+							ClientHotbarHandler.getInstance().setHotbar(b);
 						}
 					}
 				}

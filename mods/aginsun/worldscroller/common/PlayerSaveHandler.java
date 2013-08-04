@@ -1,10 +1,14 @@
 package mods.aginsun.worldscroller.common;
 
+import mods.aginsun.worldscroller.packets.PacketCreate;
+import mods.aginsun.worldscroller.packets.PacketType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import cpw.mods.fml.common.IPlayerTracker;
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
 
 public class PlayerSaveHandler implements IPlayerTracker
 {	
@@ -23,6 +27,11 @@ public class PlayerSaveHandler implements IPlayerTracker
 				hotbars[i] = new HotBar(i, new ItemStack[9]);
 			}
 			HotbarHandler.getInstance().setHotbars(player, hotbars);
+			
+			for(int i = 0; i < 54; i++)
+			{
+				PacketDispatcher.sendPacketToPlayer(PacketType.populatePacket(new PacketCreate(player.username, 0, 0, 0, i)), (Player) player);
+			}
 		}
 		else
 		{
@@ -45,7 +54,12 @@ public class PlayerSaveHandler implements IPlayerTracker
 				{
 					ItemStack stack = item[j + i * 9];
 					if(stack != null)
+					{
 						hotbars[i].slots[j] = stack;
+						PacketDispatcher.sendPacketToPlayer(PacketType.populatePacket(new PacketCreate(player.username, stack.itemID, stack.stackSize, stack.getItemDamage(), j + i * 9)), (Player) player);
+					}
+					else
+						PacketDispatcher.sendPacketToPlayer(PacketType.populatePacket(new PacketCreate(player.username, 0, 0, 0, j + i * 9)), (Player) player);
 				}
 			}
 			

@@ -3,6 +3,8 @@ package mods.aginsun.worldscroller.common;
 import java.util.HashMap;
 
 import net.minecraft.entity.player.EntityPlayer;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class HotbarHandler 
 {

@@ -1,5 +1,7 @@
 package mods.aginsun.worldscroller.common;
 
+import mods.aginsun.worldscroller.packets.PacketCreate;
+import mods.aginsun.worldscroller.packets.PacketType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -103,33 +105,44 @@ public class TileEntityWorldScroller implements IInventory
 	public void openChest()
 	{
 		if(FMLCommonHandler.instance().getEffectiveSide().isServer())
-			System.out.println("SERVER");
-		if(FMLCommonHandler.instance().getEffectiveSide().isClient())
-			System.out.println("CLIENT");
-		HotBar[] hotbars = HotbarHandler.getInstance().getHotbars(player);
-		ItemStack[] itemStacks = new ItemStack[54];
-		for(int i = 0; i < hotbars.length; i++)
 		{
-			for(int j = 0; j < hotbars[i].slots.length; j++)
+			HotBar[] hotbars = HotbarHandler.getInstance().getHotbars(player);
+			ItemStack[] itemStacks = new ItemStack[54];
+			for(int i = 0; i < hotbars.length; i++)
 			{
-				itemStacks[j + i * 9] = hotbars[i].slots[j];
+				for(int j = 0; j < hotbars[i].slots.length; j++)
+				{
+					itemStacks[j + i * 9] = hotbars[i].slots[j];
+				}
 			}
+			inventory = itemStacks;
 		}
-		inventory = itemStacks;
 	}
 
 	@Override
 	public void closeChest()
 	{
-		HotBar[] hotbars = HotbarHandler.getInstance().getHotbars(player);
-		for(int i = 0; i < hotbars.length; i++)
+		if(FMLCommonHandler.instance().getEffectiveSide().isServer())
 		{
-			for(int j = 0; j < hotbars[i].slots.length; j++)
+			HotBar[] hotbars = HotbarHandler.getInstance().getHotbars(player);
+			for(int i = 0; i < hotbars.length; i++)
 			{
-				hotbars[i].slots[j] = inventory[j + i * 9];
+				for(int j = 0; j < hotbars[i].slots.length; j++)
+				{
+					ItemStack stack = inventory[j + i * 9];
+					hotbars[i].slots[j] = stack;
+					
+					if(stack != null)
+					{	PacketDispatcher.sendPacketToPlayer(PacketType.populatePacket(new PacketCreate(player.username, stack.itemID, stack.stackSize, stack.getItemDamage(), j + i * 9)), (Player) player);
+					}
+					else
+					{
+						PacketDispatcher.sendPacketToPlayer(PacketType.populatePacket(new PacketCreate(player.username, 0, 0, 0, j + i * 9)), (Player) player);
+					}
+				}
 			}
+			HotbarHandler.getInstance().setHotbars(player, hotbars);
 		}
-		HotbarHandler.getInstance().setHotbars(player, hotbars);
 	}
 
 	@Override

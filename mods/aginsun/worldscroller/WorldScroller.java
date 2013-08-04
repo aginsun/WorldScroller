@@ -18,9 +18,10 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import mods.aginsun.worldscroller.packets.PacketHandler;
 
 @Mod(modid = "worldscroller", name = "World Scroller", version = "1.0.0")
-@NetworkMod(clientSideRequired = true, serverSideRequired = false)
+@NetworkMod(channels = { "worldscroller" }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 public class WorldScroller
 {
 	@Instance("worldscroller")
